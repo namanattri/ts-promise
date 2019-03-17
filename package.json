@@ -9,7 +9,8 @@
     "build": "npm run lint && npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "test": "promises-aplus-tests ./lib/Adapter"
   },
   "repository": {
     "type": "git",
