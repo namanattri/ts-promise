@@ -14,7 +14,7 @@ export default class MyPromise implements Thenable {
      * @param onFulfilled
      * @param onRejected
      */
-    then(onFulfilled: any, onRejected: any): MyPromise;
+    then(onFulfilled?: any, onRejected?: any): MyPromise;
     /**
      * 2.1.1. When pending, a promise:
      *   2.1.1.1. may transition to either the fulfilled or rejected state.

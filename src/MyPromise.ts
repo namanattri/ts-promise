@@ -50,7 +50,7 @@ export default class MyPromise implements Thenable {
    * @param onFulfilled
    * @param onRejected
    */
-  public then(onFulfilled: any, onRejected: any): MyPromise {
+  public then(onFulfilled?: any, onRejected?: any): MyPromise {
     // create a new promise to be returned by then for promise chaining
     const promise: MyPromise = new MyPromise();
 
