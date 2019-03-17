@@ -1,6 +1,7 @@
+import Catchable from "./Catchable";
 import { PromiseState } from "./PromiseState";
 import Thenable from "./Thenable";
-export default class MyPromise implements Thenable {
+export default class MyPromise implements Thenable, Catchable {
     private value;
     private STATE;
     private onFulfilled;
@@ -15,6 +16,11 @@ export default class MyPromise implements Thenable {
      * @param onRejected
      */
     then(onFulfilled?: any, onRejected?: any): MyPromise;
+    /**
+     * Neater promise chaining
+     * @param onRejected Takes only onRejected callback
+     */
+    catch(onRejected: any): MyPromise;
     /**
      * 2.1.1. When pending, a promise:
      *   2.1.1.1. may transition to either the fulfilled or rejected state.

@@ -1,11 +1,12 @@
 "use strict";
 
+import Catchable from "./Catchable";
 import PromiseResolutionProcedure from "./PromiseResolutionProcedure";
 import { PromiseState } from "./PromiseState";
 import Thenable from "./Thenable";
 
 // 1.1. “promise” is an object or function with a then method whose behavior conforms to the Promises/A+ specification.
-export default class MyPromise implements Thenable {
+export default class MyPromise implements Thenable, Catchable {
 
   // instance variables
 
@@ -76,6 +77,14 @@ export default class MyPromise implements Thenable {
 
     // 2.2.7. then must return a promise
     return promise;
+  }
+
+  /**
+   * Neater promise chaining
+   * @param onRejected Takes only onRejected callback
+   */
+  public catch(onRejected: any): MyPromise {
+    return this.then(null, onRejected);
   }
 
   /**
