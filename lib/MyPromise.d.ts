@@ -3,8 +3,8 @@ import Thenable from "./Thenable";
 export default class MyPromise implements Thenable {
     private value;
     private STATE;
-    private onFulfilledHandler;
-    private onRejectedHandler;
+    private onFulfilled;
+    private onRejected;
     private promiseSettlementQueue;
     readonly state: PromiseState;
     constructor(executor?: CallableFunction | any);
