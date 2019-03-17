@@ -38,7 +38,7 @@ export default class MyPromise implements Thenable {
       executor((value: any) => {
         /** @todo Promise Resolution Procedure */
       }, (reason: any) => {
-        /** @todo Promise Rejection Procedure */
+        this.reject(reason);
       });
     }
   }
@@ -158,7 +158,7 @@ export default class MyPromise implements Thenable {
           } catch (e) {
             // 2.2.7.2. If either onFulfilled or onRejected throws an exception e,
             // promise2 must be rejected with e as the reason.
-            /** @todo Promise Rejection Procedure */
+            promise.reject(e);
           }
         }
       }, 0);
