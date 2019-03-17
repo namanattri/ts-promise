@@ -3,6 +3,13 @@
 # ts-promise
 Promises/A+ specifications implementation with TypeScript
 
+## How to test?
+Simply run the following command, as the [Promises/A+ Compliance Test Suite](https://github.com/promises-aplus/promises-tests) has already been added by me as dev dependency.
+
+```bash
+npm run test
+```
+
 Implementation is written in typescript. I have used [TypeScript-Babel-Starter](https://github.com/Microsoft/TypeScript-Babel-Starter#readme) instructions for transpiling.
 
 ## Dev Dependencies
@@ -36,13 +43,6 @@ I have used tslint for linting with basic configuration in [tslint.json](https:/
   },
   "rulesDirectory": []
 }
-```
-
-## Steps for Testing
-Simply run the following command, as the [Promises/A+ Compliance Test Suite](https://github.com/promises-aplus/promises-tests) has already been added by me a dev dependency.
-
-```bash
-npm run test
 ```
 
 ## Other Available Scripts
