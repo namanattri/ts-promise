@@ -29,7 +29,44 @@ export default class PromiseResolutionProcedure {
       }
     } else if (x && (typeof x === "object" || typeof x === "function")) {
       // 2.3.3. Otherwise, if x is an object or function
-      /** @todo */
+      let isResolvePromiseOrRejectPromiseHaveBeenCalled = false;
+      try {
+        // 2.3.3.1. Let then be x.then
+        const then = x.then;
+        if (then && typeof then === "function") {
+          // 2.3.3.3. If then is a function, call it with x as this,
+          //   first argument resolvePromise, and second argument rejectPromise, where:
+          // 2.3.3.3.1 If/when resolvePromise is called with a value y, run [[Resolve]](promise, y)
+          then.call(x,
+            // 2.3.3.3.1 If/when resolvePromise is called with a value y, run [[Resolve]](promise, y)
+            (y: any) => {
+              if (!isResolvePromiseOrRejectPromiseHaveBeenCalled) {
+                PromiseResolutionProcedure.resolve(promise, y);
+                isResolvePromiseOrRejectPromiseHaveBeenCalled = true;
+              }
+            },
+            // 2.3.3.3.2. If/when rejectPromise is called with a reason r, reject promise with r
+            (r: any) => {
+              if (!isResolvePromiseOrRejectPromiseHaveBeenCalled) {
+                promise.reject(r);
+                isResolvePromiseOrRejectPromiseHaveBeenCalled = true;
+              }
+            });
+        } else {
+          // 2.3.3.4. If then is not a function, fulfill promise with x.
+          promise.fulfill(x);
+          isResolvePromiseOrRejectPromiseHaveBeenCalled = true;
+        }
+      } catch (e) {
+        // 2.3.3.2. If retrieving the property x.then results in a thrown exception e,
+        //     reject promise with e as the reason.
+        // 2.3.3.3.4. If calling then throws an exception e
+        if (!isResolvePromiseOrRejectPromiseHaveBeenCalled) {
+          promise.reject(e);
+          isResolvePromiseOrRejectPromiseHaveBeenCalled = true;
+        }
+        // 2.3.3.3.4.1 If resolvePromise or rejectPromise have been called, ignore it.
+      }
     } else {
       // 2.3.4. If x is not an object or function, fulfill promise with x.
       promise.fulfill(x);

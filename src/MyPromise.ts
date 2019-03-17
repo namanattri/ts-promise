@@ -1,5 +1,6 @@
 "use strict";
 
+import PromiseResolutionProcedure from "./PromiseResolutionProcedure";
 import { PromiseState } from "./PromiseState";
 import Thenable from "./Thenable";
 
@@ -36,7 +37,7 @@ export default class MyPromise implements Thenable {
     // bind executor resolve reject callbacks
     if (executor) {
       executor((value: any) => {
-        /** @todo Promise Resolution Procedure */
+        PromiseResolutionProcedure.resolve(this, value);
       }, (reason: any) => {
         this.reject(reason);
       });
@@ -154,7 +155,7 @@ export default class MyPromise implements Thenable {
             )(this.value);
             // 2.2.7.1. If either onFulfilled or onRejected returns a value x,
             // run the Promise Resolution Procedure [[Resolve]](promise2, x).
-            /** @todo Promise Resolution Procedure */
+            PromiseResolutionProcedure.resolve(promise, value);
           } catch (e) {
             // 2.2.7.2. If either onFulfilled or onRejected throws an exception e,
             // promise2 must be rejected with e as the reason.
