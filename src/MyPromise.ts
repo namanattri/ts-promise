@@ -6,17 +6,25 @@ import Thenable from "./Thenable";
 // 1.1. “promise” is an object or function with a then method whose behavior conforms to the Promises/A+ specification.
 export default class MyPromise implements Thenable {
 
+  // instance variables
+
   private value: any;
-  private state: PromiseState;
+  private STATE: PromiseState;
 
   private onFulfilledHandler: CallableFunction;
   private onRejectedHandler: CallableFunction;
 
   private promiseSettlementQueue: MyPromise[];
 
+  // getters & setters
+
+  get state(): PromiseState {
+    return this.STATE;
+  }
+
   constructor(executor: CallableFunction|any = null) {
     this.value = null; // default promise value as null
-    this.state = PromiseState.PENDING; // default promise state as pending
+    this.STATE = PromiseState.PENDING; // default promise state as pending
 
     // register default handlers for promise on fulfillment and rejection
     this.onFulfilledHandler = (value: any) => value;
@@ -84,7 +92,7 @@ export default class MyPromise implements Thenable {
    */
   public transitionState(state: PromiseState, value: any): void {
 
-    if (this.state === state || this.state !== PromiseState.PENDING) {
+    if (this.STATE === state || this.STATE !== PromiseState.PENDING) {
       // if the current state is same as the state being transitioned to
       // or the promise is not currently in pending state
       // do nothing
@@ -92,21 +100,29 @@ export default class MyPromise implements Thenable {
     }
 
     this.value = value;
-    this.state = state;
+    this.STATE = state;
 
     this.processRegisteredHandlers();
   }
 
   /**
    * reject
-   * @param reason can by anything but generally an Error object
+   * @param reason can by anything but generally an instance of Error object
    */
   public reject(reason: Error|any): void {
     this.transitionState(PromiseState.REJECTED, reason);
   }
 
+  /**
+   * tries to adopt state of supplied promise
+   * @param x Promise object, whose state the current promise instance will adopt
+   */
+  public adoptStateOf(x: MyPromise) {
+    this.transitionState(x.state, x.value);
+  }
+
   private processRegisteredHandlers(): void {
-    if (this.state !== PromiseState.PENDING) {
+    if (this.STATE !== PromiseState.PENDING) {
       // 2.2.4 onFulfilled or onRejected must not be called
       // until the execution context stack contains only platform code.
       setTimeout(() => {
@@ -126,7 +142,7 @@ export default class MyPromise implements Thenable {
           try {
             // 2.2.5. onFulfilled and onRejected must be called as functions (i.e. with no this value).
             const value = (
-              this.state === PromiseState.FULFILLED ? promise.onFulfilled : promise.onRejected
+              this.STATE === PromiseState.FULFILLED ? promise.onFulfilled : promise.onRejected
             )(this.value);
             // 2.2.7.1. If either onFulfilled or onRejected returns a value x,
             // run the Promise Resolution Procedure [[Resolve]](promise2, x).

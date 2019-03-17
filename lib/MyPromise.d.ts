@@ -2,10 +2,11 @@ import { PromiseState } from "./PromiseState";
 import Thenable from "./Thenable";
 export default class MyPromise implements Thenable {
     private value;
-    private state;
+    private STATE;
     private onFulfilledHandler;
     private onRejectedHandler;
     private promiseSettlementQueue;
+    readonly state: PromiseState;
     constructor(executor?: CallableFunction | any);
     /**
      * 2.2.1 Both onFulfilled and onRejected are optional arguments:
@@ -30,8 +31,13 @@ export default class MyPromise implements Thenable {
     transitionState(state: PromiseState, value: any): void;
     /**
      * reject
-     * @param reason can by anything but generally an Error object
+     * @param reason can by anything but generally an instance of Error object
      */
     reject(reason: Error | any): void;
+    /**
+     * tries to adopt state of supplied promise
+     * @param x Promise object, whose state the current promise instance will adopt
+     */
+    adoptStateOf(x: MyPromise): void;
     private processRegisteredHandlers;
 }
