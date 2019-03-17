@@ -55,9 +55,17 @@ export default class MyPromise implements Thenable {
       promise.onFulfilledHandler = onRejected;
     }
 
+    /**
+     * 2.2.6. then may be called multiple times on the same promise.
+     *   2.2.6.1. If/when promise is fulfilled, all respective onFulfilled
+     *     callbacks must execute in the order of their originating calls to then.
+     *   2.2.6.2. If/when promise is rejected, all respective onRejected
+     *     callbacks must execute in the order of their originating calls to then.
+     */
     this.promiseSettlementQueue.push(promise);
-    /** @todo process promise */
+    this.processRegisteredHandlers();
 
+    // 2.2.7. then must return a promise
     return promise;
   }
 
@@ -86,7 +94,42 @@ export default class MyPromise implements Thenable {
     this.value = value;
     this.state = state;
 
-    /** @todo ripple state transition effect: process promise */
+    this.processRegisteredHandlers();
   }
 
+  private processRegisteredHandlers(): void {
+    if (this.state !== PromiseState.PENDING) {
+      // 2.2.4 onFulfilled or onRejected must not be called
+      // until the execution context stack contains only platform code.
+      setTimeout(() => {
+
+        // 2.2.7. then may be called multiple times on the same promise.
+        //   2.2.6.1. If/when promise is fulfilled,
+        //     all respective onFulfilled callbacks must execute in the
+        //     order of their originating calls to then.
+        //   2.2.6.2. If/when promise is rejected,
+        //     all respective onRejected callbacks must execute in the
+        //     order of their originating calls to then.
+        // this is acheived by dequeue on FIFO data structure (i.e. queue)
+        while (this.promiseSettlementQueue.length) {
+          // dequeue
+          const promise: MyPromise|any = this.promiseSettlementQueue.shift();
+
+          try {
+            // 2.2.5. onFulfilled and onRejected must be called as functions (i.e. with no this value).
+            const value = (
+              this.state === PromiseState.FULFILLED ? promise.onFulfilled : promise.onRejected
+            )(this.value);
+            // 2.2.7.1. If either onFulfilled or onRejected returns a value x,
+            // run the Promise Resolution Procedure [[Resolve]](promise2, x).
+            /** @todo Promise Resolution Procedure */
+          } catch (e) {
+            // 2.2.7.2. If either onFulfilled or onRejected throws an exception e,
+            // promise2 must be rejected with e as the reason.
+            /** @todo Promise Rejection Procedure */
+          }
+        }
+      }, 0);
+    }
+  }
 }
