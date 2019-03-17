@@ -34,4 +34,32 @@ export default class MyPromise implements Thenable {
     throw new Error("Method not implemented.");
   }
 
+  /**
+   * 2.1.1. When pending, a promise:
+   *   2.1.1.1. may transition to either the fulfilled or rejected state.
+   * 2.1.2. When fulfilled, a promise:
+   *   2.1.2.1. must not transition to any other state.
+   *   2.1.2.2. must have a value, which must not change.
+   * 2.1.3. When rejected, a promise:
+   *   2.1.3.1. must not transition to any other state.
+   *   2.1.3.2. must have a reason, which must not change.
+   *
+   * @param state state to transition to
+   * @param value value passed with the transition for
+   */
+  public transitionState(state: PromiseState, value: any): void {
+
+    if (this.state === state || this.state !== PromiseState.PENDING) {
+      // if the current state is same as the state being transitioned to
+      // or the promise is not currently in pending state
+      // do nothing
+      return;
+    }
+
+    this.value = value;
+    this.state = state;
+
+    /** @todo ripple state transition effect */
+  }
+
 }
