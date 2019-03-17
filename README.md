@@ -3,12 +3,16 @@
 # ts-promise
 Promises/A+ specifications implementation with TypeScript
 
-## How to test?
+## How to quickly run test suite?
 Simply run the following command, as the [Promises/A+ Compliance Test Suite](https://github.com/promises-aplus/promises-tests) has already been added by me as dev dependency.
 
 ```bash
 npm run test
 ```
+
+## Where to find code?
+
+Look inside [src/](https://github.com/namanattri/ts-promise/tree/master/src) to find typescript well structured, documented and linted code. Look inside [lib/](https://github.com/namanattri/ts-promise/tree/master/lib) for transpiled tsc to js code.
 
 Implementation is written in typescript. I have used [TypeScript-Babel-Starter](https://github.com/Microsoft/TypeScript-Babel-Starter#readme) instructions for transpiling.
 
@@ -58,4 +62,26 @@ Other available cli scripts as they appear in [package.json](https://github.com/
   "lint": "tslint -c tslint.json 'src/**/*.ts'",
   "test": "promises-aplus-tests ./lib/Adapter"
 }
+```
+
+## Example use case of MyPromise
+
+```javascript
+let MyPromise = require('./lib/MyPromise').default;
+
+const promise = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    if(Math.random() < 0.5) {
+      resolve("success");
+    } else {
+      reject(new Error("failed"));
+    }
+  }, 5 * 1000);
+});
+
+promise.then(value => {
+  console.log("Promise resolved with value: " + value);
+}).catch(err => {
+  console.log("Promise rejected with error: " + err.message);
+});
 ```

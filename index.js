@@ -41,3 +41,20 @@ promise2.then(value => {
 }).catch(err => {
   console.log("Error caught: " + err.message);
 });
+
+console.log("promise 3");
+const promise = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    if(Math.random() < 0.5) {
+      resolve("success");
+    } else {
+      reject(new Error("failed"));
+    }
+  }, 5 * 1000);
+});
+
+promise.then(value => {
+  console.log("Promise3 resolved with value: " + value);
+}).catch(err => {
+  console.log("Promise3 rejected with error: " + err.message);
+});
