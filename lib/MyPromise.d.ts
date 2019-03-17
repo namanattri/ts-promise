@@ -30,6 +30,11 @@ export default class MyPromise implements Thenable {
      */
     transitionState(state: PromiseState, value: any): void;
     /**
+     * fulfill
+     * @param value any value
+     */
+    fulfill(value: any): void;
+    /**
      * reject
      * @param reason can by anything but generally an instance of Error object
      */

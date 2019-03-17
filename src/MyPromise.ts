@@ -106,6 +106,14 @@ export default class MyPromise implements Thenable {
   }
 
   /**
+   * fulfill
+   * @param value any value
+   */
+  public fulfill(value: any): void {
+    this.transitionState(PromiseState.FULFILLED, value);
+  }
+
+  /**
    * reject
    * @param reason can by anything but generally an instance of Error object
    */

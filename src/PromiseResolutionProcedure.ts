@@ -32,7 +32,7 @@ export default class PromiseResolutionProcedure {
       /** @todo */
     } else {
       // 2.3.4. If x is not an object or function, fulfill promise with x.
-      /** @todo */
+      promise.fulfill(x);
     }
   }
 
