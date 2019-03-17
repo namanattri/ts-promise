@@ -5,7 +5,14 @@ export default class MyPromise implements Thenable {
     private state;
     private onFulfilledHandler;
     private onRejectedHandler;
+    private promiseSettlementQueue;
     constructor(executor?: CallableFunction | any);
+    /**
+     * 2.2.1 Both onFulfilled and onRejected are optional arguments:
+     *
+     * @param onFulfilled
+     * @param onRejected
+     */
     then(onFulfilled: any, onRejected: any): MyPromise;
     /**
      * 2.1.1. When pending, a promise:
