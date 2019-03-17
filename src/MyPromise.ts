@@ -5,8 +5,12 @@ import Thenable from "./Thenable";
 // 1.1. “promise” is an object or function with a then method whose behavior conforms to the Promises/A+ specification.
 export default class MyPromise implements Thenable {
 
+  private value: any;
+  private state: string;
+
   constructor(executor: CallableFunction|any = null) {
-    // promise constructor
+    this.value = null; // default promise value as null
+    this.state = 'PENDING'; // default promise state as pending
   }
 
   public then(onFulfilled: any, onRejected: any): MyPromise {
