@@ -23,7 +23,7 @@ export function deferred() {
   // reject(reason) moves the promise from the pending state to the rejected state, with rejection reason reason.
   let reject: CallableFunction|null|undefined;
 
-  //promise is a promise that is currently in the pending state.
+  // promise is a promise that is currently in the pending state.
   const promise: MyPromise = new MyPromise(
     (rslv: CallableFunction|null|undefined, rjct: CallableFunction|null|undefined) => {
       resolve = rslv; // mapped to return in the object

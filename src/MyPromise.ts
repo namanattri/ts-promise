@@ -6,11 +6,11 @@ import Thenable from "./Thenable";
 export default class MyPromise implements Thenable {
 
   constructor(executor: CallableFunction|any = null) {
-
+    // promise constructor
   }
 
-  then(onFulfilled: any, onRejected: any): MyPromise {
+  public then(onFulfilled: any, onRejected: any): MyPromise {
     throw new Error("Method not implemented.");
   }
-  
+
 }
