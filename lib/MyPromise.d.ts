@@ -28,5 +28,10 @@ export default class MyPromise implements Thenable {
      * @param value value passed with the transition for
      */
     transitionState(state: PromiseState, value: any): void;
+    /**
+     * reject
+     * @param reason can by anything but generally an Error object
+     */
+    reject(reason: Error | any): void;
     private processRegisteredHandlers;
 }

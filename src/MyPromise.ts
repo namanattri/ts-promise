@@ -97,6 +97,14 @@ export default class MyPromise implements Thenable {
     this.processRegisteredHandlers();
   }
 
+  /**
+   * reject
+   * @param reason can by anything but generally an Error object
+   */
+  public reject(reason: Error|any): void {
+    this.transitionState(PromiseState.REJECTED, reason);
+  }
+
   private processRegisteredHandlers(): void {
     if (this.state !== PromiseState.PENDING) {
       // 2.2.4 onFulfilled or onRejected must not be called
