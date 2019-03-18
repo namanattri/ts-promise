@@ -10,7 +10,7 @@ export default class MyPromise implements Thenable, Catchable {
 
   // instance variables
 
-  private value: any;
+  private VALUE: any;
   private STATE: PromiseState;
 
   private onFulfilled: CallableFunction;
@@ -24,8 +24,12 @@ export default class MyPromise implements Thenable, Catchable {
     return this.STATE;
   }
 
+  get value(): any {
+    return this.VALUE;
+  }
+
   constructor(executor: CallableFunction|any = null) {
-    this.value = null; // default promise value as null
+    this.VALUE = null; // default promise value as null
     this.STATE = PromiseState.PENDING; // default promise state as pending
 
     // register default handlers for promise on fulfillment and rejection
@@ -109,7 +113,7 @@ export default class MyPromise implements Thenable, Catchable {
       return;
     }
 
-    this.value = value;
+    this.VALUE = value;
     this.STATE = state;
 
     this.processRegisteredHandlers();
@@ -161,7 +165,7 @@ export default class MyPromise implements Thenable, Catchable {
             // 2.2.5. onFulfilled and onRejected must be called as functions (i.e. with no this value).
             const value = (
               this.STATE === PromiseState.FULFILLED ? promise.onFulfilled : promise.onRejected
-            )(this.value);
+            )(this.VALUE);
             // 2.2.7.1. If either onFulfilled or onRejected returns a value x,
             // run the Promise Resolution Procedure [[Resolve]](promise2, x).
             PromiseResolutionProcedure.resolve(promise, value);

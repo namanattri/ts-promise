@@ -2,12 +2,13 @@ import Catchable from "./Catchable";
 import { PromiseState } from "./PromiseState";
 import Thenable from "./Thenable";
 export default class MyPromise implements Thenable, Catchable {
-    private value;
+    private VALUE;
     private STATE;
     private onFulfilled;
     private onRejected;
     private promiseSettlementQueue;
     readonly state: PromiseState;
+    readonly value: any;
     constructor(executor?: CallableFunction | any);
     /**
      * 2.2.1 Both onFulfilled and onRejected are optional arguments:
